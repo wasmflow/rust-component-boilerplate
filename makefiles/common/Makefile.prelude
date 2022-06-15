@@ -1,0 +1,1694 @@
+COMMON_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+MAKEFILE_DIR := $(dir $(COMMON_PATH))..
+
+.DEFAULT_GOAL:=all
+
+ifdef OS
+_OS := $(OS)
+else
+_OS := ""
+endif
+
+ifeq ($(_OS),Windows_NT)
+# Use powershell on Windows
+SHELL := powershell.exe
+# mkdir -p on windows throws an error if the directory exists, -Force suppresses it.
+MKDIR := mkdir -Force -p
+.SHELLFLAGS := -NoProfile -Command
+else
+# Enforce bash as the shell for consistency
+SHELL := bash
+MKDIR := mkdir -p
+# Use bash strict mode
+.SHELLFLAGS := -eu -o pipefail -c
+endif
+
+MAKEFLAGS += --warn-undefined-variables
+MAKEFLAGS += --no-builtin-rules
+
+
+# GNU Make 3.81
+# Copyright (C) 2006  Free Software Foundation, Inc.
+# This is free software; see the source for copying conditions.
+# There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+# This program built for i386-apple-darwin11.3.0
+echo Building artifact
+cargo build --target wasm32-unknown-unknown --release
+echo Copying binary to build//test_component.wasm
+cp /Users/jsoverson/development/src/vino/crates/integration/test-wasm-component/target/wasm32-unknown-unknown/release/test_component.wasm build/
+echo Signing build//test_component.wasm
+cargo run --manifest-path /Users/jsoverson/development/src/vino/makefiles/common/../../Cargo.toml -p wafl -- wasm sign build//test_component.wasm ./interface.json --ver=0.0.1 --rev=0
+echo Created build//test_component_s.wasm
+
+# Make data base, printed on Wed Jun 15 14:34:25 2022
+
+# Variables
+
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# makefile (from `../../../makefiles/common/Makefile.prelude', line 23)
+.SHELLFLAGS := -eu -o pipefail -c
+# makefile (from `../../../makefiles/common/Makefile.prelude', line 2)
+MAKEFILE_DIR := /Users/jsoverson/development/src/vino/makefiles/common/..
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common', line 17)
+INTERFACE := ./interface.json
+# default
+CWEAVE = cweave
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wasm', line 8)
+TARGET = wasm32-unknown-unknown
+# environment
+NVM_INC = /Users/jsoverson/.nvm/versions/node/v16.15.0/include/node
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# automatic
+@F = $(notdir $@)
+# default
+PC = pc
+# makefile
+CURDIR := /Users/jsoverson/development/src/vino/crates/integration/test-wasm-component
+# makefile (from `../../../makefiles/common/Makefile.prelude', line 20)
+SHELL := bash
+# default
+RM = rm -f
+# environment
+VINO = /Users/jsoverson/development/src/vino
+# environment
+_ = /usr/bin/make
+# default
+PREPROCESS.F = $(FC) $(FFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -F
+# default
+LINK.m = $(LINK.c)
+# default
+LINK.o = $(CC) $(LDFLAGS) $(TARGET_ARCH)
+# default
+OUTPUT_OPTION = -o $@
+# default
+COMPILE.cpp = $(COMPILE.cc)
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.postlude', line 1)
+MAKEFILE_LIST :=  Makefile ../../../makefiles/common/Makefile.prelude /Users/jsoverson/development/src/vino/makefiles/common/../Makefile.ephemeral-wasm /Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common /Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wellknown-false /Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wasm /Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-ephemeral /Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-collection /Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-post /Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.postlude
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-collection', line 12)
+CODEGEN_FILES := ./src/components.rs ./interface.json ./src/components.rs components
+# default
+LINK.p = $(PC) $(PFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common', line 10)
+CRATE_FS_NAME := test_component
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common', line 12)
+CRATE_VERSION := 0.0.1
+# default
+CC = cc
+# environment
+__CFBundleIdentifier = com.googlecode.iterm2
+# environment
+INFOPATH = /opt/homebrew/share/info:
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wasm', line 6)
+SIGNED_ARTIFACT := build//test_component_s.wasm
+# default
+CHECKOUT,v = +$(if $(wildcard $@),,$(CO) $(COFLAGS) $< $@)
+# default
+LEX.m = $(LEX) $(LFLAGS) -t
+# environment
+DOCS = /Users/jsoverson/Documents
+# default
+LINK.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common', line 1)
+COMPONENTS_DIR := ./src/components
+# environment
+PATH = /Users/jsoverson/.nvm/versions/node/v16.15.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/jsoverson/development/bin:/Users/jsoverson/dotfiles/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/jsoverson/.cargo/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/Users/jsoverson/.gem/ruby/2.6.0/bin:/usr/local/go/bin:/Users/jsoverson/go/bin
+# environment
+DOTFILES_DIR = /Users/jsoverson/dotfiles
+# default
+LD = ld
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.postlude', line 2)
+COLOR_GREEN := \033[92m
+# default
+TEXI2DVI = texi2dvi
+# default
+YACC = yacc
+# environment
+LSCOLORS = Gxfxcxdxbxegedabagacad
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common', line 22)
+CODEGEN := ts-node /Users/jsoverson/development/src/vino/makefiles/common/../../codegen/src/cli.ts
+# default
+COMPILE.mod = $(M2C) $(M2FLAGS) $(MODFLAGS) $(TARGET_ARCH)
+# default
+ARFLAGS = rv
+# default
+LINK.r = $(FC) $(FFLAGS) $(RFLAGS) $(LDFLAGS) $(TARGET_ARCH)
+# default
+LINT = lint
+# default
+COMPILE.f = $(FC) $(FFLAGS) $(TARGET_ARCH) -c
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wasm', line 12)
+WAFL = cargo run --manifest-path $(MAKEFILE_DIR)/../Cargo.toml -p wafl --
+# default
+LINT.c = $(LINT) $(LINTFLAGS) $(CPPFLAGS) $(TARGET_ARCH)
+# default
+YACC.m = $(YACC) $(YFLAGS)
+# environment
+GOPATH = /Users/jsoverson/go
+# environment
+NVM_BIN = /Users/jsoverson/.nvm/versions/node/v16.15.0/bin
+# default
+YACC.y = $(YACC) $(YFLAGS)
+# environment
+LaunchInstanceID = D55E612B-AF7D-4DD5-9B33-B5A841C0B46C
+# default
+AR = ar
+# makefile (from `../../../makefiles/common/Makefile.prelude', line 1)
+COMMON_PATH := /Users/jsoverson/development/src/vino/makefiles/common/Makefile.prelude
+# default
+.FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
+# default
+TANGLE = tangle
+# environment
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.pIZ8A5WWfT/Listeners
+# default
+GET = get
+# automatic
+%F = $(notdir $%)
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.postlude', line 3)
+COLOR_RED := \033[91m
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wellknown-false', line 5)
+SCHEMAS = $(wildcard ${SCHEMA_DIR}/*.widl)
+# default
+COMPILE.F = $(FC) $(FFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
+# default
+CTANGLE = ctangle
+# default
+.LIBPATTERNS = lib%.so lib%.a
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common', line 14)
+WORKSPACE_ROOT := /Users/jsoverson/development/src/vino/crates/integration/test-wasm-component
+# default
+LINK.C = $(LINK.cc)
+# environment
+PWD = /Users/jsoverson/development/src/vino/crates/integration/test-wasm-component
+# environment
+HOMEBREW_CELLAR = /opt/homebrew/Cellar
+# default
+LINK.S = $(CC) $(ASFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_MACH)
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-collection', line 13)
+CLEAN_FILES := ./src/components.rs ./interface.json build//test_component.wasm build//test_component_s.wasm ./src/components.rs
+# default
+CPP = $(CC) -E
+# default
+PREPROCESS.r = $(FC) $(FFLAGS) $(RFLAGS) $(TARGET_ARCH) -F
+# default
+LINK.c = $(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-collection', line 1)
+SOURCE_FILES := ./src/components.rs ./src/components.rs ./src/lib.rs ./src/components/__batch__.rs ./src/components/copy.rs ./src/components/error.rs ./src/components/reverse.rs ./src/components/reverse_uppercase.rs ./src/components/scratch.rs ./src/components/uppercase.rs ./src/components/validate.rs ./schemas/copy.widl ./schemas/error.widl ./schemas/reverse.widl ./schemas/reverse_uppercase.widl ./schemas/scratch.widl ./schemas/uppercase.widl ./schemas/validate.widl ./interface.json ./src/components.rs ./src/components/__batch__.rs ./src/components/copy.rs ./src/components/error.rs ./src/components/reverse.rs ./src/components/reverse_uppercase.rs ./src/components/scratch.rs ./src/components/uppercase.rs ./src/components/validate.rs
+# environment
+MANPATH = /Users/jsoverson/.nvm/versions/node/v16.15.0/share/man:/opt/homebrew/share/man::
+# default
+LINK.s = $(CC) $(ASFLAGS) $(LDFLAGS) $(TARGET_MACH)
+# environment
+HOME = /Users/jsoverson
+# default
+MAKEFILEPATH = $(shell /usr/bin/xcode-select -print-path 2>/dev/null || echo /Developer)/Makefiles
+# environment
+LOGNAME = jsoverson
+# environment
+NVM_CD_FLAGS = -q
+# environment
+DEV = /Users/jsoverson/development
+# environment
+ZSH = /Users/jsoverson/.oh-my-zsh
+# default
+CO = co
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# makefile (from `../../../makefiles/common/Makefile.prelude', line 21)
+MKDIR := mkdir -p
+# default
+COMPILE.m = $(COMPILE.c)
+# environment
+XPC_FLAGS = 0x0
+# environment
+COLORTERM = truecolor
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+SHLVL = 1
+# default
+AS = as
+# default
+PREPROCESS.S = $(CC) -E $(CPPFLAGS)
+# default
+COMPILE.p = $(PC) $(PFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
+# default
+MAKE_VERSION := 3.81
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common', line 2)
+GENERATED_MODULE := ./src/components.rs
+# environment
+USER = jsoverson
+# default
+FC = f77
+# makefile (from `../../../makefiles/common/Makefile.prelude', line 4)
+.DEFAULT_GOAL := all
+# environment
+TERM_SESSION_ID = w0t0p0:16D0973B-A06E-407B-ACA9-493FC8F70F02
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wasm', line 2)
+ARTIFACT_DIR := build/
+# environment
+LESS = -R
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wellknown-false', line 3)
+SCHEMA_DIR := ./schemas
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wellknown-false', line 1)
+WELLKNOWN =
+# default
+WEAVE = weave
+# default
+MAKE_COMMAND := /Library/Developer/CommandLineTools/usr/bin/make
+# default
+LINK.cpp = $(LINK.cc)
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-ephemeral', line 1)
+STATEFUL =
+# default
+F77 = $(FC)
+# environment
+OLDPWD = /Users/jsoverson/development/src/vino
+# environment
+TERM_PROGRAM = iTerm.app
+# default
+.VARIABLES :=
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.postlude', line 4)
+COLOR_OFF = \033[0m
+# environment
+TMPDIR = /var/folders/pg/h7s94pd90w54hcbjpkvm58240000gn/T/
+# automatic
+*F = $(notdir $*)
+# makefile (from `../../../makefiles/common/Makefile.prelude', line 9)
+_OS := ""
+# environment
+LC_TERMINAL = iTerm2
+# default
+COMPILE.def = $(M2C) $(M2FLAGS) $(DEFFLAGS) $(TARGET_ARCH)
+# default
+LEX = lex
+# makefile
+MAKEFLAGS =  --warn-undefined-variables -rpn
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common', line 20)
+RUST_SOURCES := ./src/components.rs ./src/lib.rs ./src/components/__batch__.rs ./src/components/copy.rs ./src/components/error.rs ./src/components/reverse.rs ./src/components/reverse_uppercase.rs ./src/components/scratch.rs ./src/components/uppercase.rs ./src/components/validate.rs
+# environment
+MFLAGS = - --warn-undefined-variables -rpn
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+TERM_PROGRAM_VERSION = 3.4.15
+# environment
+NVM_DIR = /Users/jsoverson/.nvm
+# default
+LEX.l = $(LEX) $(LFLAGS) -t
+# environment
+XPC_SERVICE_NAME = 0
+# environment
+LC_TERMINAL_VERSION = 3.4.15
+# environment
+HOMEBREW_PREFIX = /opt/homebrew
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# default
+COMPILE.r = $(FC) $(FFLAGS) $(RFLAGS) $(TARGET_ARCH) -c
+# automatic
++F = $(notdir $+)
+# default
+M2C = m2c
+# environment
+ITERM_SESSION_ID = w0t0p0:16D0973B-A06E-407B-ACA9-493FC8F70F02
+# environment
+HOMEBREW_REPOSITORY = /opt/homebrew
+# environment
+COLORFGBG = 7;0
+# environment
+__CF_USER_TEXT_ENCODING = 0x1F5:0x0:0x0
+# environment
+COMMAND_MODE = unix2003
+# default
+MAKEFILES :=
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wasm', line 4)
+BUILD_ARTIFACT := build//test_component.wasm
+# default
+COMPILE.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
+# automatic
+<F = $(notdir $<)
+# environment
+ITERM_PROFILE = Default
+# default
+CXX = c++
+# default
+COFLAGS =
+# environment
+PAGER = less
+# default
+COMPILE.C = $(COMPILE.cc)
+# environment
+SECURITYSESSIONID = 186a5
+# automatic
+^F = $(notdir $^)
+# default
+COMPILE.S = $(CC) $(ASFLAGS) $(CPPFLAGS) $(TARGET_MACH) -c
+# default
+LINK.F = $(FC) $(FFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
+# default
+SUFFIXES := .out .a .ln .o .c .cc .C .cpp .p .f .F .m .r .y .l .ym .lm .s .S .mod .sym .def .h .info .dvi .tex .texinfo .texi .txinfo .w .ch .web .sh .elc .el
+# default
+COMPILE.c = $(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
+# default
+COMPILE.s = $(AS) $(ASFLAGS) $(TARGET_MACH)
+# environment
+MAKELEVEL := 0
+# default
+MAKEINFO = makeinfo
+# default
+TEX = tex
+# environment
+LANG = en_US.UTF-8
+# environment
+TERM = xterm-256color
+# makefile (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common', line 8)
+CRATE_NAME := test-component
+# default
+F77FLAGS = $(FFLAGS)
+# default
+LINK.f = $(FC) $(FFLAGS) $(LDFLAGS) $(TARGET_ARCH)
+# default
+GNUMAKE = YES
+# variable set hash-table stats:
+# Load=167/1024=16%, Rehash=0, Collisions=18/317=6%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# ../../../makefiles/common (device 16777232, inode 8243915): 14 files, 160 impossibilities.
+# . (device 16777232, inode 7459788): 15 files, 20 impossibilities.
+# ./src/lib.rs (device 16777232, inode 8243266): could not be opened.
+# ./src (device 16777232, inode 8243255): 5 files, 20 impossibilities.
+# ./schemas (device 16777232, inode 8243247): 9 files, 140 impossibilities.
+# ./src/components (device 16777232, inode 8243257): 10 files, 160 impossibilities.
+# /Users/jsoverson/development/src/vino/makefiles/common/../common (device 16777232, inode 8243915): 14 files, 160 impossibilities.
+# ./src/components.rs (device 16777232, inode 8244053): could not be opened.
+# /Users/jsoverson/development/src/vino/makefiles/common/.. (device 16777232, inode 8243907): 10 files, 20 impossibilities.
+# src (device 16777232, inode 8243255): 5 files, 20 impossibilities.
+# schemas (device 16777232, inode 8243247): 9 files, 140 impossibilities.
+# src/components (device 16777232, inode 8243257): 10 files, 160 impossibilities.
+
+# 101 files, 1000 impossibilities in 12 directories.
+
+# Implicit Rules
+
+%.out:
+
+%.a:
+
+%.ln:
+
+%.o:
+
+%: %.o
+#  commands to execute (built-in):
+	$(LINK.o) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.c:
+
+%: %.c
+#  commands to execute (built-in):
+	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.ln: %.c
+#  commands to execute (built-in):
+	$(LINT.c) -C$* $<
+
+%.o: %.c
+#  commands to execute (built-in):
+	$(COMPILE.c) $(OUTPUT_OPTION) $<
+
+%.cc:
+
+%: %.cc
+#  commands to execute (built-in):
+	$(LINK.cc) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.cc
+#  commands to execute (built-in):
+	$(COMPILE.cc) $(OUTPUT_OPTION) $<
+
+%.C:
+
+%: %.C
+#  commands to execute (built-in):
+	$(LINK.C) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.C
+#  commands to execute (built-in):
+	$(COMPILE.C) $(OUTPUT_OPTION) $<
+
+%.cpp:
+
+%: %.cpp
+#  commands to execute (built-in):
+	$(LINK.cpp) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.cpp
+#  commands to execute (built-in):
+	$(COMPILE.cpp) $(OUTPUT_OPTION) $<
+
+%.p:
+
+%: %.p
+#  commands to execute (built-in):
+	$(LINK.p) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.p
+#  commands to execute (built-in):
+	$(COMPILE.p) $(OUTPUT_OPTION) $<
+
+%.f:
+
+%: %.f
+#  commands to execute (built-in):
+	$(LINK.f) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.f
+#  commands to execute (built-in):
+	$(COMPILE.f) $(OUTPUT_OPTION) $<
+
+%.F:
+
+%: %.F
+#  commands to execute (built-in):
+	$(LINK.F) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.F
+#  commands to execute (built-in):
+	$(COMPILE.F) $(OUTPUT_OPTION) $<
+
+%.f: %.F
+#  commands to execute (built-in):
+	$(PREPROCESS.F) $(OUTPUT_OPTION) $<
+
+%.m:
+
+%: %.m
+#  commands to execute (built-in):
+	$(LINK.m) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.m
+#  commands to execute (built-in):
+	$(COMPILE.m) $(OUTPUT_OPTION) $<
+
+%.r:
+
+%: %.r
+#  commands to execute (built-in):
+	$(LINK.r) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.r
+#  commands to execute (built-in):
+	$(COMPILE.r) $(OUTPUT_OPTION) $<
+
+%.f: %.r
+#  commands to execute (built-in):
+	$(PREPROCESS.r) $(OUTPUT_OPTION) $<
+
+%.y:
+
+%.ln: %.y
+#  commands to execute (built-in):
+	$(YACC.y) $<
+	$(LINT.c) -C$* y.tab.c
+	$(RM) y.tab.c
+
+%.c: %.y
+#  commands to execute (built-in):
+	$(YACC.y) $<
+	mv -f y.tab.c $@
+
+%.l:
+
+%.ln: %.l
+#  commands to execute (built-in):
+	@$(RM) $*.c
+	$(LEX.l) $< > $*.c
+	$(LINT.c) -i $*.c -o $@
+	$(RM) $*.c
+
+%.c: %.l
+#  commands to execute (built-in):
+	@$(RM) $@
+	$(LEX.l) $< > $@
+
+%.r: %.l
+#  commands to execute (built-in):
+	$(LEX.l) $< > $@
+	mv -f lex.yy.r $@
+
+%.ym:
+
+%.m: %.ym
+#  commands to execute (built-in):
+	$(YACC.m) $<
+	mv -f y.tab.c $@
+
+%.lm:
+
+%.m: %.lm
+#  commands to execute (built-in):
+	@$(RM) $@
+	$(LEX.m) $< > $@
+
+%.s:
+
+%: %.s
+#  commands to execute (built-in):
+	$(LINK.s) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.s
+#  commands to execute (built-in):
+	$(COMPILE.s) -o $@ $<
+
+%.S:
+
+%: %.S
+#  commands to execute (built-in):
+	$(LINK.S) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+%.o: %.S
+#  commands to execute (built-in):
+	$(COMPILE.S) -o $@ $<
+
+%.s: %.S
+#  commands to execute (built-in):
+	$(PREPROCESS.S) $< > $@
+
+%.mod:
+
+%: %.mod
+#  commands to execute (built-in):
+	$(COMPILE.mod) -o $@ -e $@ $^
+
+%.o: %.mod
+#  commands to execute (built-in):
+	$(COMPILE.mod) -o $@ $<
+
+%.sym:
+
+%.def:
+
+%.sym: %.def
+#  commands to execute (built-in):
+	$(COMPILE.def) -o $@ $<
+
+%.h:
+
+%.info:
+
+%.dvi:
+
+%.tex:
+
+%.dvi: %.tex
+#  commands to execute (built-in):
+	$(TEX) $<
+
+%.texinfo:
+
+%.info: %.texinfo
+#  commands to execute (built-in):
+	$(MAKEINFO) $(MAKEINFO_FLAGS) $< -o $@
+
+%.dvi: %.texinfo
+#  commands to execute (built-in):
+	$(TEXI2DVI) $(TEXI2DVI_FLAGS) $<
+
+%.texi:
+
+%.info: %.texi
+#  commands to execute (built-in):
+	$(MAKEINFO) $(MAKEINFO_FLAGS) $< -o $@
+
+%.dvi: %.texi
+#  commands to execute (built-in):
+	$(TEXI2DVI) $(TEXI2DVI_FLAGS) $<
+
+%.txinfo:
+
+%.info: %.txinfo
+#  commands to execute (built-in):
+	$(MAKEINFO) $(MAKEINFO_FLAGS) $< -o $@
+
+%.dvi: %.txinfo
+#  commands to execute (built-in):
+	$(TEXI2DVI) $(TEXI2DVI_FLAGS) $<
+
+%.w:
+
+%.c: %.w
+#  commands to execute (built-in):
+	$(CTANGLE) $< - $@
+
+%.tex: %.w
+#  commands to execute (built-in):
+	$(CWEAVE) $< - $@
+
+%.ch:
+
+%.web:
+
+%.p: %.web
+#  commands to execute (built-in):
+	$(TANGLE) $<
+
+%.tex: %.web
+#  commands to execute (built-in):
+	$(WEAVE) $<
+
+%.sh:
+
+%: %.sh
+#  commands to execute (built-in):
+	cat $< >$@
+	chmod a+x $@
+
+%.elc:
+
+%.el:
+
+# 84 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+# Not a target:
+schemas/validate.widl:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+schemas/reverse_uppercase.widl:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.web.p:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(TANGLE) $<
+
+build//test_component.wasm: interface.json src/components src/components.rs src/lib.rs src/components/__batch__.rs src/components/copy.rs src/components/error.rs src/components/reverse.rs src/components/reverse_uppercase.rs src/components/scratch.rs src/components/uppercase.rs src/components/validate.rs
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
+#  Last modified 1969-12-31 18:59:56
+#  File has been updated.
+#  Successfully updated.
+# automatic
+# @ := build//test_component.wasm
+# automatic
+# % :=
+# automatic
+# * :=
+# automatic
+# + := interface.json src/components src/components.rs src/components.rs src/lib.rs src/components/__batch__.rs src/components/copy.rs src/components/error.rs src/components/reverse.rs src/components/reverse_uppercase.rs src/components/scratch.rs src/components/uppercase.rs src/components/validate.rs
+# automatic
+# | :=
+# automatic
+# < := interface.json
+# automatic
+# ^ := interface.json src/components src/components.rs src/lib.rs src/components/__batch__.rs src/components/copy.rs src/components/error.rs src/components/reverse.rs src/components/reverse_uppercase.rs src/components/scratch.rs src/components/uppercase.rs src/components/validate.rs
+# automatic
+# ? := interface.json src/components src/components.rs src/lib.rs src/components/__batch__.rs src/components/copy.rs src/components/error.rs src/components/reverse.rs src/components/reverse_uppercase.rs src/components/scratch.rs src/components/uppercase.rs src/components/validate.rs
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/27=4%
+#  commands to execute (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wasm', line 15):
+	$(shell $(MKDIR) $(ARTIFACT_DIR))
+	@echo Building artifact
+	cargo build --target $(TARGET) --release
+	@echo Copying binary to $(BUILD_ARTIFACT)
+	@cp $(WORKSPACE_ROOT)/target/$(TARGET)/release/$(CRATE_FS_NAME).wasm build/
+
+
+# Not a target:
+.l.r:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LEX.l) $< > $@
+	mv -f lex.yy.r $@
+
+# Not a target:
+../../../makefiles/common/Makefile.prelude:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:29:37
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+src/components.rs: interface.json
+#  Implicit rule search has not been done.
+#  Last modified 2022-06-15 09:28:08
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-collection', line 4):
+	@echo Generating $@
+	@$(CODEGEN) rust integration $< --type $(STATEFUL) $(WELLKNOWN) -f -o $@
+
+
+interface.json: schemas/copy.widl schemas/error.widl schemas/reverse.widl schemas/reverse_uppercase.widl schemas/scratch.widl schemas/uppercase.widl schemas/validate.widl
+#  Implicit rule search has not been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wellknown-false', line 14):
+	@echo Building $@ from schemas in $(SCHEMA_DIR)
+	@$(CODEGEN) json interface "$(CRATE_NAME)" $(SCHEMA_DIR) -o $@ -f
+
+
+# Not a target:
+.dvi:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+src/components/uppercase.rs:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.ym:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.F.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.F) $(OUTPUT_OPTION) $<
+
+all: build
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/32=0%
+
+# Not a target:
+.m:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.m) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+.y.ln:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(YACC.y) $<
+	$(LINT.c) -C$* y.tab.c
+	$(RM) y.tab.c
+
+# Not a target:
+.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.o) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+.y:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.def.sym:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.def) -o $@ $<
+
+.PHONY: all list components clean codegen doc help debug build test
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.p.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.p) $(OUTPUT_OPTION) $<
+
+# Not a target:
+.p:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.p) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+.txinfo.dvi:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(TEXI2DVI) $(TEXI2DVI_FLAGS) $<
+
+.phony: check
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.a:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+src/components/reverse_uppercase.rs:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.l.ln:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	@$(RM) $*.c
+	$(LEX.l) $< > $*.c
+	$(LINT.c) -i $*.c -o $@
+	$(RM) $*.c
+
+# Not a target:
+src/components/validate.rs:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.w.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(CTANGLE) $< - $@
+
+# Not a target:
+.texi.dvi:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(TEXI2DVI) $(TEXI2DVI_FLAGS) $<
+
+# Not a target:
+.sh:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	cat $< >$@
+	chmod a+x $@
+
+# Not a target:
+.m.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.m) $(OUTPUT_OPTION) $<
+
+# Not a target:
+.cc:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.cc) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+.cc.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.cc) $(OUTPUT_OPTION) $<
+
+# Not a target:
+.def:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.SUFFIXES: .out .a .ln .o .c .cc .C .cpp .p .f .F .m .r .y .l .ym .lm .s .S .mod .sym .def .h .info .dvi .tex .texinfo .texi .txinfo .w .ch .web .sh .elc .el
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.c.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.c) $(OUTPUT_OPTION) $<
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:29:37
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+components: src/components interface.json
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-collection', line 9):
+	$(CODEGEN) rust component $(INTERFACE) --all $(STATEFUL) $(WELLKNOWN) -o $<
+	$(CODEGEN) rust component $(INTERFACE) __batch__  $(STATEFUL) $(WELLKNOWN) -o $(COMPONENTS_DIR)/__batch__.rs
+
+
+# Not a target:
+.r.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.r) $(OUTPUT_OPTION) $<
+
+# Not a target:
+.r:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.r) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+.lm:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+debug:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.postlude', line 8):
+	@echo -e "$(COLOR_GREEN)Crate name:$(COLOR_OFF) $(CRATE_NAME)"
+	@echo -e "$(COLOR_GREEN)Crate name (fs):$(COLOR_OFF) $(CRATE_FS_NAME)"
+	@echo -e "$(COLOR_GREEN)Crate version:$(COLOR_OFF) $(CRATE_VERSION)"
+	@echo -e "$(COLOR_GREEN)Workspace root:$(COLOR_OFF) $(WORKSPACE_ROOT)"
+	@echo -e "$(COLOR_GREEN)Rust source files:$(COLOR_OFF)"
+	@echo "$(RUST_SOURCES)"
+	@echo -e "$(COLOR_GREEN)All source files:$(COLOR_OFF)"
+	@echo "$(SOURCE_FILES)"
+	@echo -e "$(COLOR_GREEN)Generated files:$(COLOR_OFF)"
+	@echo "$(CODEGEN_FILES)"
+	@echo -e "$(COLOR_RED)----$(COLOR_OFF)"
+	@echo -e "$(COLOR_GREEN)Makefile list:$(COLOR_OFF)"
+	@echo $(MAKEFILE_LIST)
+	@echo -e "$(COLOR_GREEN)Common makefile directory:$(COLOR_OFF) $(MAKEFILE_DIR)"
+
+
+test: build
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `/Users/jsoverson/development/src/vino/makefiles/common/../Makefile.ephemeral-wasm', line 16):
+	cargo test
+
+
+# Not a target:
+.ym.m:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(YACC.m) $<
+	mv -f y.tab.c $@
+
+# Not a target:
+schemas/copy.widl:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+build: build//test_component_s.wasm
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/32=0%
+
+# Not a target:
+.info:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.elc:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.l.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	@$(RM) $@
+	$(LEX.l) $< > $@
+
+# Not a target:
+.out:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.C:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.C) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+.r.f:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(PREPROCESS.r) $(OUTPUT_OPTION) $<
+
+# Not a target:
+.sym:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.S:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.S) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+.texinfo.info:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(MAKEINFO) $(MAKEINFO_FLAGS) $< -o $@
+
+# Not a target:
+.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+.w.tex:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(CWEAVE) $< - $@
+
+help:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-post', line 17):
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z0-9_\-.*]+:.*?##/ { printf "  \033[36m%-32s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+
+
+# Not a target:
+.c.ln:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINT.c) -C$* $<
+
+# Not a target:
+.s.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.s) -o $@ $<
+
+# Not a target:
+.s:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.s) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+schemas/reverse.widl:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wasm:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:29:37
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/components/reverse.rs:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/components/copy.rs:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.texinfo.dvi:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(TEXI2DVI) $(TEXI2DVI_FLAGS) $<
+
+# Not a target:
+.el:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.texinfo:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.lm.m:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	@$(RM) $@
+	$(LEX.m) $< > $@
+
+# Not a target:
+/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wellknown-false:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.y.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(YACC.y) $<
+	mv -f y.tab.c $@
+
+# Not a target:
+/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.postlude:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:29:37
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.web.tex:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(WEAVE) $<
+
+# Not a target:
+.texi.info:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(MAKEINFO) $(MAKEINFO_FLAGS) $< -o $@
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+/Users/jsoverson/development/src/vino/makefiles/common/../Makefile.ephemeral-wasm:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:29:37
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+schemas/error.widl:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-post:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.tex.dvi:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(TEX) $<
+
+# Not a target:
+.cpp.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.cpp) $(OUTPUT_OPTION) $<
+
+# Not a target:
+.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.cpp) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-ephemeral:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.C.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.C) $(OUTPUT_OPTION) $<
+
+# Not a target:
+.ln:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.texi:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.txinfo:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.tex:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+list:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wellknown-false', line 19):
+	@echo $(SCHEMAS)
+
+
+# Not a target:
+.txinfo.info:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(MAKEINFO) $(MAKEINFO_FLAGS) $< -o $@
+
+# Not a target:
+.ch:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+build//test_component_s.wasm: build//test_component.wasm
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
+#  Last modified 1969-12-31 18:59:56
+#  File has been updated.
+#  Successfully updated.
+# automatic
+# @ := build//test_component_s.wasm
+# automatic
+# % :=
+# automatic
+# * :=
+# automatic
+# + := build//test_component.wasm
+# automatic
+# | :=
+# automatic
+# < := build//test_component.wasm
+# automatic
+# ^ := build//test_component.wasm
+# automatic
+# ? := build//test_component.wasm
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=3/40=8%
+#  commands to execute (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wasm', line 22):
+	@echo Signing $(BUILD_ARTIFACT)
+	@$(WAFL) wasm sign $(BUILD_ARTIFACT) $(INTERFACE) --ver=$(CRATE_VERSION) --rev=0
+	@echo Created $(SIGNED_ARTIFACT)
+
+
+# Not a target:
+src/components/__batch__.rs:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/components/error.rs:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+codegen: src/components.rs interface.json src/components.rs components
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-post', line 7):
+	@cargo +nightly fmt
+
+
+# Not a target:
+.S.s:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(PREPROCESS.S) $< > $@
+
+# Not a target:
+.mod:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.mod) -o $@ -e $@ $^
+
+# Not a target:
+.mod.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.mod) -o $@ $<
+
+# Not a target:
+.F.f:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(PREPROCESS.F) $(OUTPUT_OPTION) $<
+
+# Not a target:
+.w:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.S.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.S) -o $@ $<
+
+# Not a target:
+schemas/uppercase.widl:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+check:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-wasm', line 28):
+	cargo check --target=wasm32-wasi
+
+
+# Not a target:
+src/components/scratch.rs:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 13:24:26
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+schemas/scratch.widl:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.l:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+src/lib.rs:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.F:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.F) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+.web:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+doc:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-post', line 11):
+	@echo Unimplemented
+
+
+# Not a target:
+/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-collection:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+clean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common-post', line 3):
+	@rm -f $(CLEAN_FILES)
+
+
+# Not a target:
+.f:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(LINK.f) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+# Not a target:
+.f.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (built-in):
+	$(COMPILE.f) $(OUTPUT_OPTION) $<
+
+src/components:
+#  Implicit rule search has not been done.
+#  Last modified 2022-06-15 09:28:06
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `/Users/jsoverson/development/src/vino/makefiles/common/../common/Makefile.common', line 32):
+	@mkdir $@
+
+
+# files hash-table stats:
+# Load=116/1024=11%, Rehash=0, Collisions=643/2845=23%
+# VPATH Search Paths
+
+# No `vpath' search paths.
+
+# No general (`VPATH' variable) search path.
+
+# # of strings in strcache: 10
+# # of strcache buffers: 1
+# strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
+# strcache free: total = 3346 / max = 3346 / min = 3346 / avg = 3346
+
+# Finished Make data base on Wed Jun 15 14:34:25 2022
+
