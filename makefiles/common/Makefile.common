@@ -20,6 +20,7 @@ INTERFACE:=./interface.json
 RUST_SOURCES:=$(wildcard ./src/*.rs) $(wildcard ./src/*/*.rs)
 
 CODEGEN:=wasmflow-codegen
+WAFL=wafl
 
 CLEAN_FILES := $(GENERATED_MODULE)
 CODEGEN_FILES := $(GENERATED_MODULE)
@@ -27,6 +28,3 @@ SOURCE_FILES := $(GENERATED_MODULE) $(RUST_SOURCES)
 
 .PHONY: all
 all: build
-
-$(COMPONENTS_DIR):
-	@mkdir $@
