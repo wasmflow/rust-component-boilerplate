@@ -7,3 +7,7 @@ type Inputs {
 type Outputs {
   output: string
 }
+
+type Config {
+
+}
