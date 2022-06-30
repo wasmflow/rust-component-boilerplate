@@ -1,4 +1,4 @@
-# {{project-name}}
+# Rust Component Boilerplate
 
 ## Building
 
