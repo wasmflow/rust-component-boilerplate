@@ -1,8 +1,8 @@
 [package]
-name = "TODO"
+name = ""
 version = "0.0.0"
 description = ""
-authors = ["TODO"]
+authors = [""]
 edition = "2018"
 license = "BSD-3-Clause"
 
